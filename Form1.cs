@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+namespace crudApi;
 
-namespace crudv2._0
+public partial class Form1 : Form
 {
-    public partial class Form1 : Form
+    public Form1()
     {
-        public Form1()
+        InitializeComponent();
+        this.StartPosition = FormStartPosition.CenterScreen;
+    }
+
+    private void btnNewProduct_Click(object sender, EventArgs e)
+    {
+        try
         {
-            InitializeComponent();
+            Form2 newForm = new Form2();
+            newForm.Show();
         }
-
-        private void button3_Click(object sender, EventArgs e)
+        catch (Exception ex)
         {
-
+            MessageBox.Show($"Error al abrir el formulario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+    }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+    private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
 
-        }
     }
 }
