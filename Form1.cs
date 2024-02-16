@@ -1,28 +1,114 @@
-namespace crudApi;
+// Form1.cs
+using System;
+using System.Windows.Forms;
 
-public partial class Form1 : Form
+namespace crudApi
 {
-    public Form1()
+    public partial class Form1 : Form
     {
-        InitializeComponent();
-        this.StartPosition = FormStartPosition.CenterScreen;
+        private readonly DatabaseManager databaseManager;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            // Conexión a la base de datos
+            string connectionString = "Server=localhost;Database=CRUDAPI;User ID=root;Password=;Port=3306;";
+            databaseManager = new DatabaseManager(connectionString);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            VerificarConexion();
+        }
+
+        private void btnNewProduct_Click(object sender, EventArgs e)
+        {
+                Form2 newForm = new Form2();
+                newForm.Show();
+        }
+
+        private void btnObtenerProductos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var productos = databaseManager.GetProductos();
+                dataGridView.DataSource = productos;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al obtener productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnObtenerProductoPorId_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int productId = Convert.ToInt32(txtProductId.Text);
+                var producto = databaseManager.GetProductoById(productId);
+
+                if (producto != null)
+                {
+                    MostrarProductoEnControles(producto);
+                }
+                else
+                {
+                    MessageBox.Show("Producto no encontrado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al obtener producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCrearProducto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var nuevoProducto = new Producto
+                {
+                    Nombre = txtNombre.Text,
+                    Descripcion = txtDescripcion.Text,
+                    Precio = Convert.ToDecimal(txtPrecio.Text),
+                    Stock = Convert.ToInt32(txtStock.Text)
+                };
+
+                databaseManager.CrearProducto(nuevoProducto);
+
+                MessageBox.Show("Producto creado exitosamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al crear producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void VerificarConexion()
+        {
+            try{
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            lblEstadoConexion.Text = "Conectado";
+            connection.Close();
+            }
+            catch (Exception ex){
+                lblEstadoConexion.Text = $"Error de conexión: {ex.Message}";
+            }
     }
 
-    private void btnNewProduct_Click(object sender, EventArgs e)
-    {
-        try
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            Form2 newForm = new Form2();
-            newForm.Show();
+            // Aquí puedes manejar eventos relacionados con las celdas del DataGridView si es necesario
         }
-        catch (Exception ex)
+
+        private void MostrarProductoEnControles(Producto producto)
         {
-            MessageBox.Show($"Error al abrir el formulario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            txtNombre.Text = producto.Nombre;
+            txtDescripcion.Text = producto.Descripcion;
+            txtPrecio.Text = producto.Precio.ToString();
+            txtStock.Text = producto.Stock.ToString();
         }
-    }
-
-    private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-
     }
 }
