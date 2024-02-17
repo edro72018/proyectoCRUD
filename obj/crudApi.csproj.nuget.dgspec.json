@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\edwin\\Documents\\crudApi\\crudApi.csproj": {}
+    "D:\\Users\\edwin\\Documents\\proyectoCRUD\\crudApi.csproj": {}
   },
   "projects": {
-    "D:\\Users\\edwin\\Documents\\crudApi\\crudApi.csproj": {
+    "D:\\Users\\edwin\\Documents\\proyectoCRUD\\crudApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\edwin\\Documents\\crudApi\\crudApi.csproj",
+        "projectUniqueName": "D:\\Users\\edwin\\Documents\\proyectoCRUD\\crudApi.csproj",
         "projectName": "crudApi",
-        "projectPath": "D:\\Users\\edwin\\Documents\\crudApi\\crudApi.csproj",
+        "projectPath": "D:\\Users\\edwin\\Documents\\proyectoCRUD\\crudApi.csproj",
         "packagesPath": "C:\\Users\\edwin\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\edwin\\Documents\\crudApi\\obj\\",
+        "outputPath": "D:\\Users\\edwin\\Documents\\proyectoCRUD\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\edwin\\AppData\\Roaming\\NuGet\\NuGet.Config",

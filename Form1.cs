@@ -1,5 +1,6 @@
 // Form1.cs
 using System;
+using System.Configuration;
 using System.Windows.Forms;
 
 namespace crudApi
@@ -8,24 +9,21 @@ namespace crudApi
     {
         private readonly DatabaseManager databaseManager;
 
+        public object ConnectionString { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
 
             // Conexión a la base de datos
-            string connectionString = "Server=localhost;Database=CRUDAPI;User ID=root;Password=;Port=3306;";
-            databaseManager = new DatabaseManager(connectionString);
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            VerificarConexion();
+            //string connectionString = "Server=localhost;Database=CRUDAPI;User ID=root;Password=;Port=3306;";
+            //databaseManager = new DatabaseManager(connectionString);
         }
 
         private void btnNewProduct_Click(object sender, EventArgs e)
         {
-                Form2 newForm = new Form2();
-                newForm.Show();
+            Form2 newForm = new Form2();
+            newForm.Show();
         }
 
         private void btnObtenerProductos_Click(object sender, EventArgs e)
@@ -41,6 +39,7 @@ namespace crudApi
             }
         }
 
+        /*
         private void btnObtenerProductoPorId_Click(object sender, EventArgs e)
         {
             try
@@ -87,28 +86,58 @@ namespace crudApi
 
         private void VerificarConexion()
         {
-            try{
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            lblEstadoConexion.Text = "Conectado";
-            connection.Close();
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(connectionString);
+                connection.Open();
+                lblEstadoConexion.Text = "Conectado";
+                connection.Close();
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 lblEstadoConexion.Text = $"Error de conexión: {ex.Message}";
             }
-    }
+        }
 
         private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Aquí puedes manejar eventos relacionados con las celdas del DataGridView si es necesario
         }
 
-        private void MostrarProductoEnControles(Producto producto)
+        /*private void MostrarProductoEnControles(Producto producto)
         {
             txtNombre.Text = producto.Nombre;
             txtDescripcion.Text = producto.Descripcion;
             txtPrecio.Text = producto.Precio.ToString();
             txtStock.Text = producto.Stock.ToString();
+        }
+        */
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem((o) =>
+            {
+                VerificarConexion();
+            });
+        }
+
+        private void VerificarConexion()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+                lblEstadoConexion.Text = "Conectado";
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                lblEstadoConexion.Text = $"Error de Conexión : {ex.Message}";
+            }
         }
     }
 }
